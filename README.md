@@ -25,10 +25,10 @@ Toàn bộ dữ liệu sẽ được lưu trữ trên trình duyệt của bạn
 
 1. Nhấp vào biểu tượng QuickNotes trên thanh công cụ trình duyệt.
 2. Nhập tiêu đề và nội dung ghi chú.
-3. Nhấp vào nút `Add` để lưu ghi chú.
+3. Nhấp vào nút `Add` để thêm ghi chú.
 4. Nhấp vào nút `Search` để tìm ghi chú theo tiêu đề hoặc nội dung.
-5. Nhấp vào biểu tượng 📝 để sao chép nội dung ghi chú.
-6. Nhấp vào biểu tượng ❌ để xóa ghi chú.
+5. Nhấp vào nút 📝 để sao chép nội dung ghi chú.
+6. Nhấp vào nút ❌ để xóa ghi chú.
 
 ![Demo](/img/instructions.gif)
 
@@ -38,7 +38,6 @@ Toàn bộ dữ liệu sẽ được lưu trữ trên trình duyệt của bạn
 Nếu bạn có bất kỳ câu hỏi hoặc góp ý nào, vui lòng [tạo issue](https://github.com/huythai855/quicknotes-chrome-extension/issues/new) hoặc liên hệ với tôi qua email: [nguyenhuythai15@gmail.com](mailto:nguyenhuythai15).
 
 <br />
-
 ---
 
 Cảm ơn bạn đã sử dụng QuickNotes!
