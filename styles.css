@@ -9,7 +9,7 @@ h1 {
     margin-bottom: 10px;
 }
 
-input, textarea {
+#note-title, #note {
     width: 100%;
     font-size: 14px;
     margin-bottom: 2px;
@@ -17,9 +17,10 @@ input, textarea {
     border: 1px solid #ddd;
     border-radius: 3px;
     box-sizing: border-box;
+    height: 30px;
 }
 
-textarea {
+#note {
     height: 50px;
 }
 
@@ -72,18 +73,28 @@ li button {
     flex-shrink: 0;
 }
 
+li button.copy-btn {
+    background-color: #dddddda2;
+    margin-right: 5px;
+}
+
+li button.copy-btn:hover {
+    background-color: #1976D2; 
+}
+
 li button.delete-btn {
-    background-color: #f44336;
+    background-color: #dddddda2;
 }
 
 li button.delete-btn:hover {
     background-color: #d32f2f;
 }
 
-li button.copy-btn {
-    background-color: #2196F3; /* Blue color */
-}
-
-li button.copy-btn:hover {
-    background-color: #1976D2; /* Darker blue on hover */
+#note-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #f9f9f9;
 }

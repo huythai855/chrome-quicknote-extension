@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temporary Notes</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Notes</h1>
-    <input type="text" id="note-name" placeholder="Note name">
-    <textarea id="note" placeholder="Write your note here..."></textarea>
-    <button id="add-note">Add Note</button>
-    <ul id="note-list"></ul>
+    <h1>QuickNotes</h1>
+    <textarea type="text" id="note-title" placeholder="Your title"></textarea>
+    <textarea id="note" placeholder="Your note here..."></textarea>
+    <button id="add-note">Add</button>
+    <button id="search-note">Search</button>
+    <div id="note-container">
+        <ul id="note-list"></ul>
+    </div>
     <script src="popup.js"></script>
 </body>
 </html>

@@ -1,89 +1,98 @@
-// filepath: /Users/nguyenhuythai/Documents/egde-note-extension/popup.js
-const noteNameInput = document.getElementById("note-name");
+const noteNameInput = document.getElementById("note-title");
 const noteInput = document.getElementById("note");
 const addNoteButton = document.getElementById("add-note");
+const searchNoteButton = document.getElementById("search-note");
 const noteList = document.getElementById("note-list");
 
-// Hàm tải danh sách ghi chú từ storage và hiển thị
-function loadNotes() {
+document.addEventListener("click", (event) => {
+    if (!noteNameInput.contains(event.target) 
+        && !noteInput.contains(event.target) 
+        && !addNoteButton.contains(event.target) 
+        && !searchNoteButton.contains(event.target)
+        && !noteList.contains(event.target)) {
+        noteNameInput.value = "";
+        noteInput.value = "";
+        loadNotes();
+    }
+});
+
+function loadNotes(noteName = "", noteContent = "") {
     chrome.storage.local.get(["notes"], (result) => {
         const notes = result.notes || [];
-        noteList.innerHTML = ""; // Xóa danh sách cũ
+        noteList.innerHTML = ""; 
+
         notes.forEach((note, index) => {
             const listItem = document.createElement("li");
+            if(note.name.includes(noteName) && note.content.includes(noteContent)){
+                const noteContent = document.createElement("span");
+                noteContent.innerHTML = `<strong>${note.name}:</strong><br>${note.content}`;
+                noteContent.title = note.content;
+                // Nút copy
+                const copyButton = document.createElement("button");
+                copyButton.textContent = "📝";
+                copyButton.classList.add("copy-btn");
+                copyButton.title = "Click to copy";
+                copyButton.addEventListener("click", () => {
+                    copyNoteContent(note.content);
+                    copyButton.textContent = "Copied";
+                    setTimeout(() => {
+                        copyButton.textContent = "📝";
+                    }, 3000);
+                });
+                // Nút xóa
+                const deleteButton = document.createElement("button");
+                deleteButton.textContent = "❌";
+                deleteButton.classList.add("delete-btn");
+                deleteButton.title = "Click to delete";
+                deleteButton.addEventListener("click", () => deleteNote(index));
 
-            // // Nội dung ghi chú
-            // const noteContent = document.createElement("span");
-            // noteContent.textContent = `${note.name}: ${note.content}`;
-            // noteContent.title = note.content; // Hiển thị toàn bộ nội dung khi hover
-            // Nội dung ghi chú
-            const noteContent = document.createElement("span");
-
-            // Tạo nội dung với 2 dòng, dòng trên in đậm
-            noteContent.innerHTML = `<strong>${note.name}</strong>:<br>${note.content}`;
-            noteContent.title = note.content; // Hiển thị toàn bộ nội dung khi hover
-
-            // Nút copy
-            const copyButton = document.createElement("button");
-            copyButton.textContent = "C";
-            copyButton.classList.add("copy-btn");
-            copyButton.addEventListener("click", () => copyNoteContent(note.content));
-            
-            // Nút xóa
-            const deleteButton = document.createElement("button");
-            deleteButton.textContent = "X";
-            deleteButton.classList.add("delete-btn");
-            deleteButton.addEventListener("click", () => deleteNote(index));
-
-            listItem.appendChild(noteContent);
-            listItem.appendChild(copyButton);
-            listItem.appendChild(deleteButton);
-            noteList.appendChild(listItem);
+                listItem.appendChild(noteContent);
+                listItem.appendChild(copyButton);
+                listItem.appendChild(deleteButton);
+                noteList.appendChild(listItem); 
+            }
         });
     });
 }
 
-// Hàm sao chép ghi chú vào clipboard
 function copyNoteContent(content) {
-    navigator.clipboard.writeText(content).then(() => {
-        // alert("Note copied to clipboard!");
-    }).catch((error) => {
-        console.error("Failed to copy note: ", error);
-    });
+    navigator.clipboard.writeText(content).then(() => {});
 }
 
-// Hàm thêm ghi chú
 function addNote() {
+    if (!noteNameInput.value) noteNameInput.value = "no title";
+    if (!noteInput.value) noteInput.value = "no content";
     const noteName = noteNameInput.value.trim();
     const noteContent = noteInput.value.trim();
-    if (!noteName || !noteContent) return; // Bỏ qua nếu tên hoặc nội dung ghi chú rỗng
 
     chrome.storage.local.get(["notes"], (result) => {
         const notes = result.notes || [];
         notes.push({ name: noteName, content: noteContent });
-
         chrome.storage.local.set({ notes }, () => {
-            noteNameInput.value = ""; // Xóa nội dung ô nhập tên
-            noteInput.value = ""; // Xóa nội dung ô nhập
-            loadNotes(); // Tải lại danh sách ghi chú
+            noteNameInput.value = "";
+            noteInput.value = "";
+            loadNotes();
         });
     });
 }
 
-// Hàm xóa ghi chú
+function searchNote() {
+    const noteName = noteNameInput.value.trim();
+    const noteContent = noteInput.value.trim();
+    loadNotes(noteName, noteContent);
+}
+
 function deleteNote(index) {
     chrome.storage.local.get(["notes"], (result) => {
         const notes = result.notes || [];
-        notes.splice(index, 1); // Xóa ghi chú tại vị trí index
-
+        notes.splice(index, 1);
         chrome.storage.local.set({ notes }, () => {
-            loadNotes(); // Tải lại danh sách ghi chú
+            loadNotes();
         });
     });
 }
 
-// Sự kiện khi nhấn nút "Add Note"
 addNoteButton.addEventListener("click", addNote);
+searchNoteButton.addEventListener("click", searchNote);
 
-// Tải danh sách ghi chú khi mở popup
 loadNotes();
